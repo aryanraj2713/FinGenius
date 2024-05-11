@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Nav } from '@/components/nav';
 
 declare global {
     interface Window {
@@ -92,23 +93,26 @@ const PaymentPage = () => {
         setAmount(e.target.value);
     }
     return (
-        <div className="flex justify-center items-center h-screen">
-            <Card className="w-full max-w-sm">
-                <CardHeader>
-                    <CardTitle className="text-2xl">Payment</CardTitle>
-                    <CardDescription>
-                        Enter the amount you want to pay
-                    </CardDescription>
-                </CardHeader>
-                <CardContent className="grid gap-4">
-                    <div className="grid gap-2">
-                        <Input id="amount" type="email" placeholder="Enter amount" required onChange={handleAmountChange} />
-                    </div>
-                </CardContent>
-                <CardFooter>
-                    <Button className="w-full" onClick={displayRazorpay}>Checkout</Button>
-                </CardFooter>
-            </Card>
+        <div>
+            <Nav />
+            <div className="flex justify-center items-center h-screen">
+                <Card className="w-full max-w-sm">
+                    <CardHeader>
+                        <CardTitle className="text-2xl">Payment</CardTitle>
+                        <CardDescription>
+                            Enter the amount you want to pay
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="grid gap-4">
+                        <div className="grid gap-2">
+                            <Input id="amount" type="email" placeholder="Enter amount" required onChange={handleAmountChange} />
+                        </div>
+                    </CardContent>
+                    <CardFooter>
+                        <Button className="w-full" onClick={displayRazorpay}>Checkout</Button>
+                    </CardFooter>
+                </Card>
+            </div>
         </div>
     )
 }
