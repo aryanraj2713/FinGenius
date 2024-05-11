@@ -31,4 +31,12 @@ export default {
   api: {
     prefix: '/api',
   },
+
+  /**
+   * Razorpay configs
+   */
+  razorpay: {
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_SECRET,
+  },
 };
