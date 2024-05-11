@@ -110,3 +110,12 @@ tzdata==2024.1
 urllib3==2.2.1
 wcwidth==0.2.13
 yarl==1.9.4
+streamlit
+pandas
+numpy
+groq
+langchain_community
+langchain_groq
+yfinance
+plotly
+langchain_core
