@@ -35,9 +35,14 @@ const PaymentPage = () => {
         });
     }
     const [amount_checkout, setAmount] = useState(0);
+    const [name, setName] = useState('');
     const displayRazorpay = async () => {
         if (amount_checkout < 50000) {
             alert("Please enter a valid amount");
+            return;
+        }
+        if (name === '' || name === null || name === undefined || name.length < 3) {
+            alert("Please enter a valid name");
             return;
         }
         const res = await loadScript(
@@ -49,9 +54,17 @@ const PaymentPage = () => {
             return;
         }
 
+        const token = localStorage.getItem('token');
+        console.log(token);
+
         // creating a new order
-        const result = await axios.post("http://localhost:3000/api/orders", {
+        const result = await axios.post("http://localhost:8080/api/orders", {
             amount: amount_checkout,
+            name: name,
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
         });
 
         if (!result) {
@@ -81,6 +94,7 @@ const PaymentPage = () => {
             theme: {
                 color: "#000000",
             },
+            callback_url: "http://localhost:3000/success",
         };
 
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -105,7 +119,14 @@ const PaymentPage = () => {
                     </CardHeader>
                     <CardContent className="grid gap-4">
                         <div className="grid gap-2">
+                            <Label htmlFor="name">Amount</Label>
                             <Input id="amount" type="email" placeholder="Enter amount" required onChange={handleAmountChange} />
+                        </div>
+                    </CardContent>
+                    <CardContent>
+                        <div className="grid gap-2">
+                            <Label htmlFor="name">Recipient Account Name</Label>
+                            <Input id="name" type="email" placeholder="Enter account name" required onChange={(e) => setName(e.target.value)} />
                         </div>
                     </CardContent>
                     <CardFooter>
