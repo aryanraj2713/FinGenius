@@ -21,8 +21,8 @@ const siteLinks = [
         to: '/dashboard',
     },
     {
-        name: 'Chat',
-        to: '/chat',
+        name: 'Payment',
+        to: '/payment',
     },
 
 ];
@@ -47,16 +47,6 @@ export const Nav = () => {
                         {link.name}
                     </Link>
                 ))}
-                {
-                    localStorage.getItem('is_investor') === 'true' && (
-                        <Link
-                            href="/investor"
-                            className="text-muted-foreground transition-colors hover:text-foreground"
-                        >
-                            Dashboard
-                        </Link>
-                    )
-                }
 
             </nav>
             <Sheet>

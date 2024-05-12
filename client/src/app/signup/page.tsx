@@ -13,22 +13,18 @@ import { Label } from '@/components/ui/label';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export function LoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isInvestor, setIsInvestor] = useState(false);
     const [name, setName] = useState('');
+    const router = useRouter();
 
     const handleSubmit = () => {
-        console.log('Submitted');
-        // window.location.href = '/dashboard';
-        console.log('Name:', name);
-        console.log('Email:', email);
-        console.log('Password:', password);
-        console.log('Is Investor:', isInvestor);
-        const url = 'http://localhost:3000/api/auth/signup';
-        const data = { name, email, password, is_investor: isInvestor };
+        const url = 'http://localhost:8080/api/signup';
+        const data = { name, email, password };
         fetch(url, {
             method: 'POST',
             headers: {
@@ -41,16 +37,10 @@ export function LoginForm() {
             }
             throw new Error('Signup failed');
         }).then((data) => {
-            console.log('Signup:', data);
+            console.log('Signup:', JSON.stringify(data));
             toast.success('You are now signed up!');
             localStorage.setItem('email', email);
-            if (isInvestor) {
-                localStorage.setItem('is_investor', 'true');
-            }
-            else {
-                localStorage.setItem('is_investor', 'false');
-            }
-            window.location.href = '/kyc';
+            router.push('/login');
         }).catch((error) => {
             console.error('Error:', error);
             toast.error('Signup failed');

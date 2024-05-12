@@ -13,14 +13,14 @@ import { Label } from '@/components/ui/label';
 import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 export function LoginForm() {
+    const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const handleSubmit = () => {
-        console.log('Email:', email);
-        console.log('Password:', password);
-        const url = 'http://localhost:3000/api/auth/login';
+        const url = 'http://localhost:8080/api/login';
         const data = { email, password };
         fetch(url, {
             method: 'POST',
@@ -34,20 +34,11 @@ export function LoginForm() {
             }
             throw new Error('Login failed');
         }).then((data) => {
-            console.log('Login:', data);
+            console.log('Login:', JSON.stringify(data));
             toast.success('You are now logged in!');
-            localStorage.setItem('token', data.token.token);
-            localStorage.setItem('email', data.token.user.email);
-            if (data.token.user.is_investor) {
-                localStorage.setItem('is_investor', 'true');
-                window.location.href = '/investor';
-                toast.info('You are now logged in!');
-            }
-            else {
-                localStorage.setItem('is_investor', 'false');
-                window.location.href = '/dashboard';
-                toast.info('You are now logged in!');
-            }
+            localStorage.setItem('token', data.jwt);
+            localStorage.setItem('email', data.user.email);
+            router.push('/dashboard');
         }).catch((error) => {
             console.error('Error:', error);
             toast.error('Login failed');
