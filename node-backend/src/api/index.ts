@@ -132,5 +132,14 @@ export default (): Router => {
     }
   });
 
+  app.get("/user", authenticateToken(), async (req, res) => {
+    try {
+      const user = res.locals.user;
+      res.json(user);
+    } catch (error) {
+      res.status
+    }
+  });
+
   return app;
 };

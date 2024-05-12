@@ -55,12 +55,11 @@ const PaymentPage = () => {
         }
 
         const token = localStorage.getItem('token');
-        console.log(token);
 
         // creating a new order
         const result = await axios.post("http://localhost:8080/api/orders", {
             amount: amount_checkout,
-            name: name,
+            receiver: name
         }, {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -106,6 +105,10 @@ const PaymentPage = () => {
     const handleAmountChange = (e: any) => {
         setAmount(e.target.value);
     }
+
+    const handleNameChange = (e: any) => {
+        setName(e.target.value);
+    }
     return (
         <div>
             <Nav />
@@ -126,7 +129,7 @@ const PaymentPage = () => {
                     <CardContent>
                         <div className="grid gap-2">
                             <Label htmlFor="name">Recipient Account Name</Label>
-                            <Input id="name" type="email" placeholder="Enter account name" required onChange={(e) => setName(e.target.value)} />
+                            <Input id="name" type="email" placeholder="Enter account name" required onChange={handleNameChange} />
                         </div>
                     </CardContent>
                     <CardFooter>

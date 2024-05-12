@@ -89,6 +89,14 @@ export const Nav = () => {
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
                             onClick={() => {
+                                router.push('/profile');
+                            }}
+                        >
+                            Profile
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                            onClick={() => {
                                 localStorage.clear();
                                 router.push('/');
                                 toast.info('You are now logged out!');

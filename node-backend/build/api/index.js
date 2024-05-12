@@ -151,6 +151,15 @@ exports.default = () => {
             res.status(500).send(error);
         }
     });
+    app.get("/user", (0, utils_1.authenticateToken)(), async (req, res) => {
+        try {
+            const user = res.locals.user;
+            res.json(user);
+        }
+        catch (error) {
+            res.status;
+        }
+    });
     return app;
 };
 //# sourceMappingURL=index.js.map
