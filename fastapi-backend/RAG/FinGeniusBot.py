@@ -128,5 +128,3 @@ def FinGeniusAssistant(query: str) -> str:
 context = JsonToPdfToContext(userId="0001")
 queryAnalyser = FinGeniusAnalyser(query="Can you help me understand my spending habits?", context=context)
 queryAssistant = FinGeniusAssistant(query="I currently have 50000$ in spare money where should I invest it?")
-
-print(queryAssistant)
