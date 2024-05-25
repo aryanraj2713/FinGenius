@@ -18,14 +18,21 @@ const Assistant: React.FC = () => {
         const newMessage: Message = { user: 'User', text: query };
         setMessages((prevMessages) => [...prevMessages, newMessage]);
 
+        const formData = new FormData();
+
         try {
-            const response = await axios.post('http://localhost:8000/assistant-bot', { query });
+            formData.append('query', query);
+            const response = await axios.post('http://localhost:8000/assistant-bot', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
             const botMessage: Message = { user: 'Bot', text: response.data.response };
-            setMessages((prevMessages) => [newMessage, botMessage]);
+            setMessages((prevMessages) => [...prevMessages, botMessage]);
         } catch (error) {
             console.error('Error:', error);
             const errorMessage: Message = { user: 'Bot', text: 'Sorry, something went wrong.' };
-            setMessages((prevMessages) => [newMessage, errorMessage]);
+            setMessages((prevMessages) => [...prevMessages, errorMessage]);
         }
 
         setQuery('');

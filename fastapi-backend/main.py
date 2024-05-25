@@ -38,7 +38,7 @@ def read_root():
 def assistance_bot(query: str = Form(...)):
     try:
         response = FinGeniusAssistant(query)
-        return {"assistant response": response}
+        return {"response": response}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -83,7 +83,7 @@ async def analyser_bot(
             context = JsonToPdfToContext(userId)
 
         response = FinGeniusAnalyser(query, context=context)
-        return {"analyser response": response}
+        return {"response": response}
     except HTTPException as e:
         raise e
     except Exception as e:
