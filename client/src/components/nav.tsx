@@ -24,6 +24,10 @@ const siteLinks = [
         name: 'Payment',
         to: '/payment',
     },
+    {
+        name: 'Chat',
+        to: '/chat',
+    }
 
 ];
 
