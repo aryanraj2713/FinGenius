@@ -59,32 +59,31 @@ async def save_bank_statement(userId: str = Form(...)):
         return f"Data for user {userId} has been written to {file_path}"
     else:
         return f"No data found for user {userId}"
-    
+
+@app.post("/save-pdf")
+async def save_pdf(file: UploadFile = File(...)):
+    if file:
+        if not file.filename.endswith('.pdf'):
+            raise HTTPException(status_code=400, detail="File must be a PDF")
+
+        file_path = os.path.join(UPLOAD_FOLDER, file.filename)
+        with open(file_path, "wb") as f:
+            f.write(file.file.read())
+        
+        return f"File {file.filename} has been saved to {file_path}"
+    else:
+        return "No file uploaded"
+        
+
 @app.post("/analyser-bot")
 async def analyser_bot(
     query: str = Form(...),
-    userId: Optional[str] = Form(None),
-    file: Optional[UploadFile] = File(None)
+    userId: Optional[str] = Form(None)
 ):
-    try:
-        if file:
-            if not file.filename.endswith('.pdf'):
-                raise HTTPException(status_code=400, detail="File must be a PDF")
-
-            file_path = os.path.join(UPLOAD_FOLDER, file.filename)
-            with open(file_path, "wb") as f:
-                f.write(file.file.read())
-
-            context = PDFToContext(file_path)
-        else:
-            if not userId:
-                raise HTTPException(status_code=400, detail="userId is required if no file is uploaded")
-
-            context = JsonToPdfToContext(userId)
-
-        response = FinGeniusAnalyser(query, context=context)
-        return {"response": response}
-    except HTTPException as e:
-        raise e
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    if not userId:
+        file_path = os.path.join(UPLOAD_FOLDER)
+        context = PDFToContext(file_path)
+    if userId:
+        context = JsonToPdfToContext(userId)
+    response = FinGeniusAnalyser(query, context=context)
+    return {"response": response}
