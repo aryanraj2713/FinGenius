@@ -1,5 +1,6 @@
 'use client';
 import { Chat } from '@/components/chat/chat';
+import { Nav } from '@/components/nav';
 import React, { useEffect, useState } from 'react';
 
 const ChatPage = () => {
@@ -23,11 +24,16 @@ const ChatPage = () => {
   }, []);
 
   return (
-    <main className="flex h-full flex-col items-center justify-center p-4 md:p-8">
-      <div className="z-10 border rounded-lg max-w-5xl w-full h-full text-sm lg:flex">
-        <Chat isMobile={isMobile} />
+    <div>
+      <div className="py-10">
+        <Nav />
       </div>
-    </main>
+      <main className="flex flex-col items-center justify-center">
+        <div className="z-10 border rounded-lg min-h-screen text-sm lg:flex w-full max-w-4xl">
+          <Chat isMobile={isMobile} />
+        </div>
+      </main>
+    </div>
   );
 };
 

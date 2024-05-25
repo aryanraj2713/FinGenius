@@ -99,7 +99,11 @@ export function ChatList({
           </p>
         )}
       </div>
-      <ChatBottombar sendMessage={sendMessage} currentUser={selectedUser} />
+      <div className="w-full h-20 flex items-center justify-center">
+        <div className="absolute bottom-0 w-5/12">
+          <ChatBottombar sendMessage={sendMessage} currentUser={selectedUser} />
+        </div>
+      </div>
     </div>
   );
 }
