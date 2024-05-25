@@ -30,7 +30,7 @@ def draw_table_headers(pdf, col_widths):
     pdf.cell(col_widths[4], 10, "Balance", 1, 1, "C", True)
 
 def JsonToPdfToContext(userId: str) -> list[str]:
-    path = os.path.join('RAG/bankstatement')
+    path = os.path.join('bank')
 
     userId = userId
     jsonPath = os.path.join(path, f"{userId}.json")
@@ -131,6 +131,6 @@ def FinGeniusAssistant(query: str) -> str:
     return chat_completion.choices[0].message.content
 
 
-context = JsonToPdfToContext(userId="0001")
-queryAnalyser = FinGeniusAnalyser(query="Can you help me understand my spending habits?", context=context)
-queryAssistant = FinGeniusAssistant(query="I currently have 50000$ in spare money where should I invest it?")
+# context = JsonToPdfToContext(userId="0001")
+# queryAnalyser = FinGeniusAnalyser(query="Can you help me understand my spending habits?", context=context)
+# queryAssistant = FinGeniusAssistant(query="I currently have 50000$ in spare money where should I invest it?")

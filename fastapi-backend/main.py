@@ -3,6 +3,13 @@ from fastapi import FastAPI, File, UploadFile, HTTPException, Form
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
+
+import pymongo
+import json
+
+from dotenv import load_dotenv
+load_dotenv()
+
 from RAG.FinGeniusBot import FinGeniusAssistant, FinGeniusAnalyser, JsonToPdfToContext, PDFToContext
 
 app = FastAPI()
@@ -19,6 +26,10 @@ app.add_middleware(
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+BANKSTATMENT_FOLDER = 'bank'
+os.makedirs(BANKSTATMENT_FOLDER, exist_ok=True)
+
+
 @app.get("/")
 def read_root():
     return {"message": "Hello, FastAPI!"}
@@ -31,6 +42,24 @@ def assistance_bot(query: str = Form(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.post("/save-bank-statement")
+async def save_bank_statement(userId: str = Form(...)):
+
+    uri = os.getenv("MONGODB_URI")
+    client = pymongo.MongoClient(uri)
+    db = client['test']
+    collection = db['expenses']
+    user_data = collection.find_one({'userId': userId})
+    if user_data:
+        expenses = user_data.get('expenses', [])
+        file_path = os.path.join('bank', f'{userId}.json')
+        with open(file_path, 'w') as file:
+            json.dump(expenses, file, indent=4)
+        
+        return f"Data for user {userId} has been written to {os.listdir(file_path)}"
+    else:
+        return f"No data found for user {userId}"
+    
 @app.post("/analyser-bot")
 async def analyser_bot(
     query: str = Form(...),
