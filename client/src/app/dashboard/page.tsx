@@ -66,7 +66,7 @@ const DashboardPage = () => {
             <Nav />
             <div className='flex flex-col items-center justify-center pt-20'>
                 <h1 className='text-2xl font-semibold mb-8'>Welcome to the Dashboard</h1>
-                <div className='flex justify-evenly w-full px-8 py-10'>
+                <div className='flex flex-col md:flex-row justify-evenly w-full px-8 py-10 space-y-2 md:space-y-0'>
                     <div className='border-2 px-20 py-6 rounded-md border-black'>
                         <div className='text-center text-xl font-semibold'>Monthly Income</div>
                         <div className='text-center font-bold text-2xl'>{user?.income}</div>

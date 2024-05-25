@@ -51,7 +51,7 @@ const Analyser: React.FC = () => {
                         </div>
                     ))}
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center md:flex-row flex-col space-y-2 md:space-y-0 mb-2">
                     <input
                         type="text"
                         value={query}

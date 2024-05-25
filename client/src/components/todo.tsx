@@ -1,6 +1,7 @@
 // src/App.tsx
 
 import React, { useState, useEffect } from 'react';
+import { toast } from 'sonner';
 
 const Todo: React.FC = () => {
     const [todos, setTodos] = useState<TodoItem[]>(() => {
@@ -34,16 +35,19 @@ const Todo: React.FC = () => {
         };
         setTodos([...todos, todo]);
         setNewTodo({ category: '', limit: 0, used: 0 });
+        toast.success('Expense added successfully');
     };
 
     const deleteTodo = (id: number) => {
         setTodos(todos.filter(todo => todo.id !== id));
+        toast.success('Expense deleted successfully');
     };
 
     const editTodo = (todo: TodoItem) => {
         setIsEditing(true);
         setCurrentTodo(todo);
         setNewTodo({ category: todo.category, limit: todo.limit, used: todo.used });
+        toast.info('Editing expense');
     };
 
     const updateTodo = () => {
@@ -57,6 +61,7 @@ const Todo: React.FC = () => {
             setIsEditing(false);
             setCurrentTodo(null);
             setNewTodo({ category: '', limit: 0, used: 0 });
+            toast.success('Expense updated successfully');
         }
     };
 

@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { toast } from 'sonner';
 
 
 const socialLinks = [
@@ -37,6 +38,7 @@ const Profile = () => {
         });
         if (response.ok) {
             console.log('Monthly Income updated successfully');
+            toast.success('Monthly Income updated successfully');
         } else {
             console.error('Error updating monthly income:', response.statusText);
         }
@@ -75,6 +77,9 @@ const Profile = () => {
                         <div className="flex flex-col items-center">
                             <h2 className="text-md">{user?.name}</h2>
                             <h2 className="text-md">{user?.email}</h2>
+                            <h2 className="text-md">Income: {user?.income}</h2>
+                            <h2 className="text-md">Expense: {user?.expense}</h2>
+                            <h2 className="text-md">Balance: {user?.balance}</h2>
                         </div>
                     </div>
                 </div>
