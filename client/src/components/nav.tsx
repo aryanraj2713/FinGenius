@@ -27,6 +27,10 @@ const siteLinks = [
     {
         name: 'Chat',
         to: '/chat',
+    },
+    {
+        name: 'Statement Analyser',
+        to: '/statement-analyser',
     }
 
 ];
