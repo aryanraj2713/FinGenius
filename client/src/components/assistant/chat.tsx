@@ -1,6 +1,7 @@
 // src/components/Chatbot.tsx
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Button } from '../ui/button';
 
 interface Message {
     user: string;
@@ -20,11 +21,11 @@ const Assistant: React.FC = () => {
         try {
             const response = await axios.post('http://localhost:8000/assistant-bot', { query });
             const botMessage: Message = { user: 'Bot', text: response.data.response };
-            setMessages((prevMessages) => [...prevMessages, newMessage, botMessage]);
+            setMessages((prevMessages) => [newMessage, botMessage]);
         } catch (error) {
             console.error('Error:', error);
             const errorMessage: Message = { user: 'Bot', text: 'Sorry, something went wrong.' };
-            setMessages((prevMessages) => [...prevMessages, newMessage, errorMessage]);
+            setMessages((prevMessages) => [newMessage, errorMessage]);
         }
 
         setQuery('');
@@ -36,8 +37,8 @@ const Assistant: React.FC = () => {
                 <div className="h-96 overflow-y-auto border border-gray-300 p-4 rounded-lg bg-gray-50 mb-5">
                     {messages.map((message, index) => (
                         <div key={index} className={`mb-3 flex ${message.user === 'User' ? 'justify-end' : 'justify-start'}`}>
-                            <div className={`inline-block px-4 py-2 rounded-lg ${message.user === 'User' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-800'}`}>
-                                <strong>{message.user}:</strong> {message.text}
+                            <div className={`inline-block px-4 py-2 rounded-lg ${message.user === 'User' ? 'bg-black text-white' : 'bg-gray-300 text-gray-800'}`}>
+                                {message.text}
                             </div>
                         </div>
                     ))}
@@ -47,15 +48,15 @@ const Assistant: React.FC = () => {
                         type="text"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
-                        className="flex-1 border border-gray-300 rounded-lg p-3 mr-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="flex-1 border border-gray-300 rounded-lg px-3 py-2 mr-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Type your message..."
                     />
-                    <button
+                    <Button
                         onClick={handleSend}
-                        className="bg-blue-500 text-white px-4 py-3 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="text-white px-4 py-3 rounded-lg hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                         Send
-                    </button>
+                    </Button>
                 </div>
             </div>
         </div>

@@ -56,11 +56,20 @@ exports.default = () => {
             await collection.insertOne({
                 orderId: order.id,
                 userId: user.userId,
-                amount: order.amount,
+                amount: order.amount / 100,
                 currency: order.currency,
                 receipt: order.receipt,
                 status: order.status,
                 receiver: receiver,
+            });
+            const updateUser = await (await (0, database_1.default)()).collection('users').findOne({ userId: user.userId });
+            const newExpense = order.amount / 100;
+            const income = updateUser.income;
+            const balance = income - newExpense;
+            await (await (0, database_1.default)()).collection('users').updateOne({ userId: user.userId }, {
+                $set: {
+                    balance: income - newExpense, expense: updateUser.expense + newExpense
+                }
             });
             res.json(order);
         }
@@ -82,6 +91,9 @@ exports.default = () => {
                 name: req.body.name,
                 email: req.body.email,
                 password: hash,
+                income: 0,
+                expense: 0,
+                balance: 0,
             });
             res.status(201).send({
                 success: true,
@@ -157,7 +169,22 @@ exports.default = () => {
             res.json(user);
         }
         catch (error) {
-            res.status;
+            res.status(500).send(error);
+        }
+    });
+    app.post("/income", (0, utils_1.authenticateToken)(), async (req, res) => {
+        try {
+            const email = res.locals.user.email;
+            const collection = (await (0, database_1.default)()).collection('users');
+            const user = await collection.findOne({ email });
+            if (!user) {
+                throw new Error('User not found');
+            }
+            await collection.updateOne({ email }, { $set: { income: req.body.income, balance: req.body.income, expense: 0 } });
+            res.json({ success: true, message: 'Income updated successfully' });
+        }
+        catch (error) {
+            res.status(500).send(error);
         }
     });
     return app;

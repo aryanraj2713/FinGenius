@@ -2,14 +2,46 @@
 import { Nav } from '@/components/nav';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+
 
 const socialLinks = [
     { name: 'LinkedIn', url: 'https://www.linkedin.com/' },
     { name: 'Twitter', url: 'https://twitter.com/' },
 ];
 
+
 const Profile = () => {
-    const [isInvestor, setIsInvestor] = useState(false);
+
+    const [monthlyIncome, setMonthlyIncome] = useState<number>(0);
+
+    const handleSubmit = async () => {
+        const url = `http://localhost:8080/api/income`;
+        const token = localStorage.getItem('token');
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({ income: monthlyIncome }),
+        });
+        if (response.ok) {
+            console.log('Monthly Income updated successfully');
+        } else {
+            console.error('Error updating monthly income:', response.statusText);
+        }
+    };
+
     const [user, setUser] = useState<any>();
     useEffect(() => {
         const url = `http://localhost:8080/api/user`;
@@ -37,7 +69,7 @@ const Profile = () => {
     return (
         <div>
             <Nav />
-            <div className="flex justify-center min-h-screen items-center space-x-10">
+            <div className="flex flex-col items-center justify-center min-h-screen space-y-10">
                 <div>
                     <div className="flex justify-center mt-5">
                         <div className="flex flex-col items-center">
@@ -56,6 +88,21 @@ const Profile = () => {
                         priority
                     />
                 </div> */}
+                <div className="border-2 p-2 rounded-md border-black">
+                    <Dialog>
+                        <DialogTrigger>Update Income</DialogTrigger>
+                        <DialogContent>
+                            <DialogHeader>
+                                <DialogTitle>Please Update your Monthly Income?</DialogTitle>
+                                <Input type="number" placeholder="Enter your Monthly Income" onChange={(e) => setMonthlyIncome(parseInt(e.target.value))} />
+                                <DialogDescription>
+                                    <Button onClick={handleSubmit}>Submit</Button>
+                                </DialogDescription>
+                            </DialogHeader>
+                        </DialogContent>
+                    </Dialog>
+                </div>
+
             </div>
         </div>
     );
