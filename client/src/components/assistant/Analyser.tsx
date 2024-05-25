@@ -8,7 +8,7 @@ interface Message {
     text: string;
 }
 
-const Assistant: React.FC = () => {
+const Analyser: React.FC = () => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [query, setQuery] = useState<string>('');
 
@@ -22,7 +22,8 @@ const Assistant: React.FC = () => {
 
         try {
             formData.append('query', query);
-            const response = await axios.post('http://localhost:8000/assistant-bot', formData, {
+            formData.append('userId', localStorage.getItem('userId') || '');
+            const response = await axios.post('http://localhost:8000/analyser-bot', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -34,6 +35,7 @@ const Assistant: React.FC = () => {
             const errorMessage: Message = { user: 'Bot', text: 'Sorry, something went wrong.' };
             setMessages((prevMessages) => [...prevMessages, errorMessage]);
         }
+
         setQuery('');
     };
 
@@ -69,4 +71,4 @@ const Assistant: React.FC = () => {
     );
 };
 
-export default Assistant;
+export default Analyser;

@@ -38,6 +38,8 @@ export function LoginForm() {
             toast.success('You are now logged in!');
             localStorage.setItem('token', data.jwt);
             localStorage.setItem('email', data.user.email);
+            localStorage.setItem('userId', data.user.userId);
+            localStorage.setItem('todos', [] as any);
             router.push('/dashboard');
         }).catch((error) => {
             console.error('Error:', error);

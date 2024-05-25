@@ -2,6 +2,7 @@
 "use client";
 import Assistant from '@/components/assistant/chat';
 import { Nav } from '@/components/nav'
+import Todo from '@/components/todo';
 import React, { useEffect, useState } from 'react'
 
 interface Transaction {
@@ -78,6 +79,10 @@ const DashboardPage = () => {
                         <div className='text-center text-xl font-semibold'>Balance</div>
                         <div className='text-center font-bold text-2xl'>{user?.balance}</div>
                     </div>
+                </div>
+                <div className='text-2xl font-semibold'>Expense Tracker</div>
+                <div className='flex justify-evenly px-8 pb-10'>
+                    <Todo />
                 </div>
                 <div className="overflow-x-auto w-full px-8">
                     <table className='min-w-full bg-white border border-gray-200 shadow-md rounded-lg'>
