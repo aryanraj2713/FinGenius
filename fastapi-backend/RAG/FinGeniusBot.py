@@ -14,6 +14,12 @@ client = Groq(
     api_key= os.getenv("GROQ_API_KEY"),
 )
 
+def PDFToContext(filePath: str) -> list[str]:
+    loader = PyPDFLoader(filePath)
+    pages = loader.load_and_split()
+
+    page_content = [doc.page_content for doc in pages]
+    return page_content
 
 def draw_table_headers(pdf, col_widths):
     pdf.set_fill_color(200, 220, 255)
