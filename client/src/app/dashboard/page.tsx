@@ -67,24 +67,24 @@ const DashboardPage = () => {
             <div className='flex flex-col items-center justify-center pt-20'>
                 <h1 className='text-2xl font-semibold mb-8'>Welcome to the Dashboard</h1>
                 <div className='flex justify-evenly w-full px-8 py-10'>
-                    <div className='border-2 p-20 rounded-md border-black'>
+                    <div className='border-2 px-20 py-6 rounded-md border-black'>
                         <div className='text-center text-xl font-semibold'>Monthly Income</div>
                         <div className='text-center font-bold text-2xl'>{user?.income}</div>
                     </div>
-                    <div className='border-2 p-20 rounded-md border-black'>
+                    <div className='border-2 px-20 py-6 rounded-md border-black'>
                         <div className='text-center text-xl font-semibold'>Expenditure</div>
                         <div className='text-center font-bold text-2xl'>{user?.expense}</div>
                     </div>
-                    <div className='border-2 p-20 rounded-md border-black'>
+                    <div className='border-2 px-20 py-6 rounded-md border-black'>
                         <div className='text-center text-xl font-semibold'>Balance</div>
                         <div className='text-center font-bold text-2xl'>{user?.balance}</div>
                     </div>
                 </div>
                 <div className='text-2xl font-semibold'>Expense Tracker</div>
-                <div className='flex justify-evenly px-8 pb-10'>
+                <div className='flex justify-evenly px-8 pb-10 w-screen'>
                     <Todo />
                 </div>
-                <div className="overflow-x-auto w-full px-8">
+                <div className="overflow-x-auto w-11/12 px-10">
                     <table className='min-w-full bg-white border border-gray-200 shadow-md rounded-lg'>
                         <thead className='bg-gray-200'>
                             <tr>
@@ -119,7 +119,9 @@ const DashboardPage = () => {
                 <div className='text-center text-2xl font-semibold mt-8'>
                     Want to chat with our assistant?
                 </div>
-                <Assistant />
+                <div className='px-3'>
+                    <Assistant />
+                </div>
             </div>
         </div>
     )

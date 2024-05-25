@@ -61,8 +61,8 @@ const Todo: React.FC = () => {
     };
 
     return (
-        <div className="flex items-center justify-center p-4">
-            <div className="bg-white p-6 rounded-lg shadow-lg">
+        <div className="flex items-center justify-center p-4 w-screen">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-11/12">
                 <div className="space-y-4">
                     <input
                         type="text"

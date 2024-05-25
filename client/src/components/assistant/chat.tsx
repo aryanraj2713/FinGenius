@@ -39,7 +39,7 @@ const Assistant: React.FC = () => {
 
     return (
         <div className="flex flex-col items-center justify-center pt-10 mx-8">
-            <div className="w-full bg-shadow-lg rounded-lg">
+            <div className="w-11/12 bg-shadow-lg rounded-lg">
                 <div className="h-96 overflow-y-auto border border-gray-300 p-4 rounded-lg bg-gray-50 mb-5">
                     {messages.map((message, index) => (
                         <div key={index} className={`mb-3 flex ${message.user === 'User' ? 'justify-end' : 'justify-start'}`}>
