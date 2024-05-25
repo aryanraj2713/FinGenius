@@ -2,8 +2,9 @@ import os
 from fastapi import FastAPI, File, UploadFile, HTTPException, Form
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import Optional
-
+from typing import Optional, List
+import requests
+# from typing import List
 import pymongo
 import json
 
@@ -87,3 +88,71 @@ async def analyser_bot(
         context = JsonToPdfToContext(userId)
     response = FinGeniusAnalyser(query, context=context)
     return {"response": response}
+
+
+
+# newsapi = NewsApiClient(api_key="NEWS_API_KEY")
+
+# @app.get("/financial-news", response_model=List[dict])
+# async def get_financial_news():
+#     """
+
+#     Returns:
+#         List[dict]: A list of dictionaries representing the top financial news headlines.
+#             Each dictionary contains information such as the title, description, author,
+#             publication date, and URL of the news article.
+#     Raises:
+#         HTTPException: If there was an error fetching the news or if the NewsAPI response
+#             status is not 'ok'.
+#     """
+
+#     try:
+#         # Fetch top headlines related to financial news
+#         top_headlines = newsapi.get_top_headlines(
+#             category='business',
+#             language='en',
+#             country='us'
+#         )
+        
+#         if top_headlines['status'] != 'ok':
+#             raise HTTPException(status_code=500, detail="Error fetching news")
+        
+#         return top_headlines['articles']
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
+
+
+
+class Source(BaseModel):
+    id: Optional[str]
+    name: str
+
+class Article(BaseModel):
+    source: Source
+    author: Optional[str]
+    title: str
+    description: Optional[str]
+    url: str
+    publishedAt: str
+    content: Optional[str]
+
+class NewsResponse(BaseModel):
+    status: str
+    totalResults: int
+    articles: List[Article]
+
+@app.get("/finance_news", response_model=NewsResponse)
+async def get_big_data_news():
+    url = 'https://newsapi.org/v2/everything'
+    NEWS_API_KEY = '05dbdf3ffccd49bfbabc15650174438e'
+    parameters = {
+        'q': 'finance',
+        'pageSize': 20,
+        'apiKey': NEWS_API_KEY
+    }
+    try:
+        response = requests.get(url, params=parameters)
+        response.raise_for_status()
+    except requests.RequestException as e:
+        raise HTTPException(status_code=response.status_code, detail=str(e))
+    return response.json()
