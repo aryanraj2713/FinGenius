@@ -28,10 +28,10 @@ def read_root():
 @app.post("/assistant-bot")
 def assistance_bot(request: FinGeniusAssistantRequest):
     response = FinGeniusAssistant(request.query)
-    return {"assistant response": response}
+    return {"response": response}
 
 @app.post("/analyser-bot")
 def analyser_bot(request: FinGeniusAnalyserRequest):
     context = JsonToPdfToContext(request.userId)
     response = FinGeniusAnalyser(request.query, context)
-    return {"analyser response": response}
+    return {"response": response}
