@@ -56,7 +56,7 @@ async def save_bank_statement(userId: str = Form(...)):
         with open(file_path, 'w') as file:
             json.dump(expenses, file, indent=4)
         
-        return f"Data for user {userId} has been written to {os.listdir(file_path)}"
+        return f"Data for user {userId} has been written to {file_path}"
     else:
         return f"No data found for user {userId}"
     
