@@ -85,6 +85,8 @@ const DashboardPage = () => {
                     <ProgressBar
                         bgColor='black'
                         height='50px'
+                        customLabel={`Balance Left ${(user?.balance / user?.income) * 100.0}%`}
+                        maxCompleted={100}
                         completed={(user?.balance / user?.income) * 100.0}
                     />
                 </div>
