@@ -1,10 +1,11 @@
-// src/app/dashboard/page.tsx
 "use client";
 import Assistant from '@/components/assistant/chat';
-import { Nav } from '@/components/nav'
+import { Nav } from '@/components/nav';
 import Todo from '@/components/todo';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import ProgressBar from "@ramonak/react-progress-bar";
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 interface Transaction {
     _id: string;
@@ -19,7 +20,7 @@ interface Transaction {
 
 const DashboardPage = () => {
     const [transactions, setTransactions] = React.useState<Transaction[]>([]);
-
+    const [user, setUser] = useState<any>();
 
     const fetchTransactions = async () => {
         const url = 'http://localhost:8080/api/orders';
@@ -36,8 +37,8 @@ const DashboardPage = () => {
         } else {
             console.error('Error:', response.statusText);
         }
-    }
-    const [user, setUser] = useState<any>();
+    };
+
     useEffect(() => {
         const url = `http://localhost:8080/api/user`;
         const fetchData = async () => {
@@ -61,6 +62,20 @@ const DashboardPage = () => {
         fetchData();
         fetchTransactions();
     }, []); // Removed [user] dependency to prevent infinite loop
+
+    const downloadPDF = async () => {
+        const input = document.getElementById('transactions-table');
+        if (input) {
+            const canvas = await html2canvas(input);
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF();
+            const imgProps = pdf.getImageProperties(imgData);
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save('transactions.pdf');
+        }
+    };
 
     return (
         <div className='py-10'>
@@ -95,7 +110,7 @@ const DashboardPage = () => {
                     <Todo />
                 </div>
                 <div className="overflow-x-auto w-11/12 px-10">
-                    <table className='min-w-full bg-white border border-gray-200 shadow-md rounded-lg'>
+                    <table id="transactions-table" className='min-w-full bg-white border border-gray-200 shadow-md rounded-lg'>
                         <thead className='bg-gray-200'>
                             <tr>
                                 <th className='px-6 py-3 text-left border-b'>Order ID</th>
@@ -123,6 +138,9 @@ const DashboardPage = () => {
                             )}
                         </tbody>
                     </table>
+                    <div className='flex justify-center'>
+                        <button onClick={downloadPDF} className='mt-4 px-4 py-2 bg-black text-white rounded-md'>Download as PDF</button>
+                    </div>
                 </div>
             </div>
             <div>
@@ -134,7 +152,7 @@ const DashboardPage = () => {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default DashboardPage
+export default DashboardPage;
