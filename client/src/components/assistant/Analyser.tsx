@@ -14,6 +14,7 @@ const Analyser: React.FC = () => {
 
     const handleSend = async () => {
         if (query.trim() === '') return;
+        setQuery('');
 
         const newMessage: Message = { user: 'User', text: query };
         setMessages((prevMessages) => [...prevMessages, newMessage]);
