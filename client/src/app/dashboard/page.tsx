@@ -4,6 +4,7 @@ import Assistant from '@/components/assistant/chat';
 import { Nav } from '@/components/nav'
 import Todo from '@/components/todo';
 import React, { useEffect, useState } from 'react'
+import ProgressBar from "@ramonak/react-progress-bar";
 
 interface Transaction {
     _id: string;
@@ -79,6 +80,13 @@ const DashboardPage = () => {
                         <div className='text-center text-xl font-semibold'>Balance</div>
                         <div className='text-center font-bold text-2xl'>{user?.balance}</div>
                     </div>
+                </div>
+                <div className='w-10/12 mb-8'>
+                    <ProgressBar
+                        bgColor='black'
+                        height='50px'
+                        completed={(user?.balance / user?.income) * 100.0}
+                    />
                 </div>
                 <div className='text-2xl font-semibold'>Expense Tracker</div>
                 <div className='flex justify-evenly px-8 pb-10 w-screen'>
