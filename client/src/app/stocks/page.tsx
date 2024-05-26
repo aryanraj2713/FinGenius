@@ -38,7 +38,7 @@ const App: React.FC = () => {
             <Nav />
             <div className="bg-gray-100 flex items-center justify-center mt-10 py-10">
                 <div className="bg-white p-6 rounded shadow-md w-10/12">
-                    <h1 className="text-2xl font-bold mb-4">News Search</h1>
+                    <h1 className="text-2xl font-bold mb-4">Search for stock news</h1>
                     <div className="mb-4">
                         <input
                             type="text"
