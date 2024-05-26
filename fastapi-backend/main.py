@@ -172,3 +172,21 @@ def get_stock_news(ticker: str):
         return response.json()
     else:
         raise HTTPException(status_code=response.status_code, detail="Error fetching data from Yahoo Finance API")
+
+
+@app.get("/deals")
+def get_amazon_deals():
+    url = "https://real-time-amazon-data.p.rapidapi.com/deals-v2"
+    querystring = {"country": "US"}
+    
+    headers = {
+        "X-RapidAPI-Key": "5a67ca7e36mshfe02fcb157d7904p1f8447jsn59277a0a41b1",
+        "X-RapidAPI-Host": "real-time-amazon-data.p.rapidapi.com"
+    }
+
+    response = requests.get(url, headers=headers, params=querystring)
+    
+    if response.status_code == 200:
+        return response.json()
+    else:
+        raise HTTPException(status_code=response.status_code, detail="Error fetching data from Amazon API")
