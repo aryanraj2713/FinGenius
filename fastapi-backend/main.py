@@ -156,3 +156,19 @@ async def get_big_data_news():
     except requests.RequestException as e:
         raise HTTPException(status_code=response.status_code, detail=str(e))
     return response.json()
+
+
+@app.get("/news/{ticker}")
+def get_stock_news(ticker: str):
+    url = f"https://yahoo-finance127.p.rapidapi.com/news/{ticker}"
+    headers = {
+        "X-RapidAPI-Key": "5a67ca7e36mshfe02fcb157d7904p1f8447jsn59277a0a41b1",
+        "X-RapidAPI-Host": "yahoo-finance127.p.rapidapi.com"
+    }
+
+    response = requests.get(url, headers=headers)
+    
+    if response.status_code == 200:
+        return response.json()
+    else:
+        raise HTTPException(status_code=response.status_code, detail="Error fetching data from Yahoo Finance API")
